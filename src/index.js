@@ -11,12 +11,13 @@ function setUpPage() {
 
 function handleSubmit(e) {
     e.preventDefault()
+    // debugger
 let info = {
         quote: e.target.text.value,
         author: e.target.author.value,
         likes: 0
     }
-    addNewQuote() 
+    addNewQuote(info) 
     e.target.reset()
 }
 
