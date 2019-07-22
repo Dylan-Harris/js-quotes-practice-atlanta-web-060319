@@ -66,6 +66,24 @@ likeBtn.className = "likeButton"
 likeBtn.innerText = info.likes + " Likes"
 likeBtn.setAttribute("data-id", info.id)
 
+let deleteBtn = document.createElement("button")
+deleteBtn.addEventListener("click", handleDelete)
+deleteBtn.className = "deleteButton"
+deleteBtn.innerText = "Delete Quote"
+deleteBtn.setAttribute("data-id", info.id)
+
+function handleDelete(e){
+    deleteBtn.parentElement.remove()
+}
+
+function removeQuote(){
+    let id = document.querySelector(".deleteButton").dataset.id
+    fetch(`http://localhost:3000/quotes/${id}`, {
+        method: "DELETE"
+    }) 
+    .then(res => console.log(res))
+}
+
 function handleLike(e){
 }
 
@@ -74,4 +92,7 @@ li.appendChild(blockBox)
 li.appendChild(quote)
 quote.appendChild(footer)
 quote.appendChild(likeBtn)
+quote.appendChild(deleteBtn)
 }
+
+
