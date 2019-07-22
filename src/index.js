@@ -11,22 +11,32 @@ function setUpPage() {
 
 function handleSubmit(e) {
     e.preventDefault()
-
-    let info = {
-        quote: e.target.quote.value,
+let info = {
+        quote: e.target.text.value,
         author: e.target.author.value,
-        likes : 0
+        likes: 0
     }
-}
-
-function addNewQuote() {
-    e.target.reset
+    addNewQuote() 
+    e.target.reset()
 }
 
 function getAllQuotes() {
     fetch('http://localhost:3000/quotes?_embed=likes')
     .then(res => res.json())
     .then(data => createQuoteList(data))
+}
+
+function addNewQuote(quote) {
+    fetch('http://localhost:3000/quotes?_embed=likes', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(quote)
+    })
+    .then(resp => resp.json())
+    .then (data => quoteCards(data))
+    .catch(res => console.log("Error:", res))
 }
 
 function createQuoteList(quotes) {
@@ -49,8 +59,18 @@ let footer = document.createElement('footer')
 footer.className = 'blockquote-footer'
 footer.innerText = info.author
 
+let likeBtn = document.createElement("button")
+likeBtn.addEventListener("click", handleLike)
+likeBtn.className = "likeButton"
+likeBtn.innerText = info.likes + " Likes"
+likeBtn.setAttribute("data-id", info.id)
+
+function handleLike(e){
+}
+
 ul.appendChild(li)
 li.appendChild(blockBox)
 li.appendChild(quote)
 quote.appendChild(footer)
+quote.appendChild(likeBtn)
 }
